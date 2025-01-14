@@ -1,0 +1,58 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+TABLE person {
+    id BIGINT [primary key]
+    created_date DATE
+    updated_date DATE
+    status_id BIGINT
+    first_name VARCHAR
+    last_name VARCHAR
+    birth_date DATE
+    job VARCHAR
+    intention_change_id BIGINT
+    actual_insurance_expire_date DATE
+    intention_insurance_ammount FLOAT
+}
+
+TABLE insurance_person {
+    id BIGINT [primary key]
+    person_id BIGINT
+    insurance_current_id BIGINT
+    insurance_intention_id BIGINT
+}
+
+TABLE insurance_type {
+     id BIGINT [primary key]
+     description VARCHAR
+}
+
+TABLE intention_change_type {
+     id BIGINT [primary key]
+     description VARCHAR
+}
+
+TABLE status {
+     id BIGINT [primary key]
+     description VARCHAR
+}
+
+TABLE insurance_accession {
+    id BIGINT [primary key]
+    created_date DATE
+    updated_date DATE
+    person_id BIGINT
+    insurance_type_id BIGINT
+    ammount FLOAT
+    start_date DATE
+    end_date DATE
+    status_id int8
+}
+
+ref: insurance_person.id - person.id
+ref: insurance_type.id > insurance_person.insurance_current_id
+ref: insurance_type.id > insurance_person.insurance_intention_id
+ref: status.id - person.status_id
+ref: intention_change_type.id - person.intention_change_id
+ref: insurance_accession.id > person.id
+ref: status.id - insurance_accession.status_id
